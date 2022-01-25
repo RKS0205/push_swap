@@ -29,6 +29,22 @@ void	test_stack(t_data *data)
 	}
 }
 
+int	stack_size(t_link *stack)
+{
+	t_link	*temp;
+	int		count;
+
+	temp = stack;
+	count = 1;
+	while (stack->next != temp)
+	{
+		stack = stack->next;
+		count++;
+	}
+	stack = temp;
+	return (count);
+}
+
 int	get_max_nbr(t_link *stack, t_data *data)
 {
 	int	max;
@@ -186,7 +202,7 @@ int	count_moves_a(t_data *data)
 		{
 			data->a = temp;
 			if (count > (data->argc - 1) / 2)
-				return (count - (data->argc - 1));
+				return (count - stack_size(data->a));
 			return (count);
 		}
 		count++;
@@ -194,7 +210,7 @@ int	count_moves_a(t_data *data)
 	}
 	data->a = temp;
 	if (count > (data->argc - 1) / 2)
-		return (count - (data->argc - 1));
+		return (count - stack_size(data->a));
 	return (count);
 }
 
@@ -211,7 +227,7 @@ int	count_moves_b(t_data *data)
 		count++;
 	}
 	if (count > (data->argc - 1) / 2)
-		return (count - (data->argc - 1));
+		return (count - stack_size(data->b));
 	return (count);
 }
 
@@ -275,9 +291,10 @@ void	best_movement(t_data *data)
 	data->move_b = count_moves_b(data);
 	data->move_a = count_moves_a(data);
 	if (count > data->move_a + data->argc - 1 && data->move_a < 0)
-		data->move_a += data->argc - 1;
+		data->move_a += stack_size(data->a);
 	if (count > data->move_b + data->argc - 1 && data->move_b < 0)
-		data->move_b += data->argc - 1;
+		data->move_b += stack_size(data->b);
+	data->b = data->temp;
 }
 
 void	smart_rotate(t_data *data)
@@ -328,12 +345,13 @@ int	main(int argc, char **argv)
 			else
 				do_ra(data);
 		}
-		test_stack(data);
 		while (data->b != NULL)
 		{
 			best_movement(data);
 			while (data->move_b != 0 || data->move_a != 0)
+			{
 				smart_rotate(data);
+			}
 			do_pa(data);
 		}
 		while (data->a->n != get_min_nbr(data->a))
@@ -346,12 +364,11 @@ int	main(int argc, char **argv)
 				data->count++;
 			}
 			if (data->count > (data->argc - 1) / 2)
-				data->count -= data->argc - 1;
+				data->count -= stack_size(data->a);
 			data->move_a = data->count;
 			data->a = data->temp;
 			while (data->move_a != 0)
 				smart_rotate(data);
 		}
 	}
-	test_stack(data);
 }
