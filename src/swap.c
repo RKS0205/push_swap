@@ -19,9 +19,9 @@ void	do_sa(t_data *data)
 	write (1, "sa\n", 3);
 	if (data->a->next == data->a || data->a == NULL)
 		return ;
-	temp = data->a->num;
-	data->a->num = data->a->next->num;
-	data->a->next->num = temp;
+	temp = data->a->n;
+	data->a->n = data->a->next->n;
+	data->a->next->n = temp;
 }
 
 void	do_sb(t_data *data)
@@ -31,9 +31,9 @@ void	do_sb(t_data *data)
 	write (1, "sb\n", 3);
 	if (data->b->next == data->b || data->b == NULL)
 		return ;
-	temp = data->b->num;
-	data->b->num = data->b->next->num;
-	data->b->next->num = temp;
+	temp = data->b->n;
+	data->b->n = data->b->next->n;
+	data->b->next->n = temp;
 }
 
 void	do_ss(t_data *data)
@@ -43,14 +43,14 @@ void	do_ss(t_data *data)
 	write (1, "ss\n", 3);
 	if (data->a->next != data->a && data->a != NULL)
 	{
-		temp = data->a->num;
-		data->a->num = data->a->next->num;
-		data->a->next->num = temp;
+		temp = data->a->n;
+		data->a->n = data->a->next->n;
+		data->a->next->n = temp;
 	}
 	if (data->b->next != data->b && data->b != NULL)
 	{
-		temp = data->b->num;
-		data->b->num = data->b->next->num;
-		data->b->next->num = temp;
+		temp = data->b->n;
+		data->b->n = data->b->next->n;
+		data->b->next->n = temp;
 	}
 }

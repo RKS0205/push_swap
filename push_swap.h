@@ -20,7 +20,7 @@
 typedef struct s_link
 {
 	int				check;
-	int				num;
+	int				n;
 	struct s_link	*next;
 	struct s_link	*prev;
 }	t_link;
@@ -31,6 +31,9 @@ typedef struct s_data
 	t_link	*b;
 	t_link	*temp;
 	int		count;
+	int		move_a;
+	int		move_b;
+	int		argc;
 }	t_data;
 
 void	check_args(int argc, char **argv);
