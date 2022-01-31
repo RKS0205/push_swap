@@ -9,10 +9,20 @@ void	test_stack(t_data *data)
 		data->temp = data->a;
 		while (data->a->next != data->temp)
 		{
-			printf ("%i %i\n", data->a->n, data->a->check);
+			ft_putnbr_fd(data->a->n, 1);
+			write (1, " ", 1);
+			ft_putnbr_fd(data->a->check, 1);
+			write (1, " ", 1);
+			ft_putnbr_fd(data->a->order, 1);
+			write (1, "\n", 1);
 			data->a = data->a->next;
 		}
-		printf ("%i %i\n", data->a->n, data->a->check);
+		ft_putnbr_fd(data->a->n, 1);
+		write (1, " ", 1);
+		ft_putnbr_fd(data->a->check, 1);
+		write (1, " ", 1);
+		ft_putnbr_fd(data->a->order, 1);
+		write (1, "\n", 1);
 		data->a = data->temp;
 	}
 	if (data->b != NULL)
@@ -21,10 +31,20 @@ void	test_stack(t_data *data)
 		data->temp = data->b;
 		while (data->b->next != data->temp)
 		{
-			printf ("%i %i\n", data->b->n, data->b->check);
+			ft_putnbr_fd(data->b->n, 1);
+			write (1, " ", 1);
+			ft_putnbr_fd(data->b->check, 1);
+			write (1, " ", 1);
+			ft_putnbr_fd(data->b->order, 1);
+			write (1, "\n", 1);
 			data->b = data->b->next;
 		}
-		printf ("%i %i\n", data->b->n, data->b->check);
+		ft_putnbr_fd(data->b->n, 1);
+		write (1, " ", 1);
+		ft_putnbr_fd(data->b->check, 1);
+		write (1, " ", 1);
+		ft_putnbr_fd(data->b->order, 1);
+		write (1, "\n", 1);
 		data->b = data->temp;
 	}
 }
@@ -43,43 +63,6 @@ int	stack_size(t_link *stack)
 	}
 	stack = temp;
 	return (count);
-}
-
-int	get_max_nbr(t_link *stack, t_data *data)
-{
-	int	max;
-
-	max = stack->n;
-	data->temp = stack;
-	while (stack->next != data->temp)
-	{
-		if (stack->n > max)
-			max = stack->n;
-		stack = stack->next;
-	}
-	if (stack->n > max)
-		max = stack->n;
-	stack = data->temp;
-	return (max);
-}
-
-int	get_min_nbr(t_link *stack)
-{
-	int	min;
-	t_link	*temp;
-
-	min = stack->n;
-	temp = stack;
-	while (stack->next != temp)
-	{
-		if (stack->n < min)
-			min = stack->n;
-		stack = stack->next;
-	}
-	if (stack->n < min)
-		min = stack->n;
-	stack = temp;
-	return (min);
 }
 
 int	count_stack(t_link *stack)
@@ -201,7 +184,7 @@ int	count_moves_a(t_data *data)
 				&& data->a->n == get_min_nbr(data->a)))
 		{
 			data->a = temp;
-			if (count > (data->argc - 1) / 2)
+			if (count > stack_size(data->a) / 2)
 				return (count - stack_size(data->a));
 			return (count);
 		}
@@ -209,7 +192,7 @@ int	count_moves_a(t_data *data)
 		data->a = data->a->next;
 	}
 	data->a = temp;
-	if (count > (data->argc - 1) / 2)
+	if (count > stack_size(data->a) / 2)
 		return (count - stack_size(data->a));
 	return (count);
 }
@@ -226,7 +209,7 @@ int	count_moves_b(t_data *data)
 		temp = temp->next;
 		count++;
 	}
-	if (count > (data->argc - 1) / 2)
+	if (count > stack_size(data->b) / 2)
 		return (count - stack_size(data->b));
 	return (count);
 }
@@ -238,11 +221,11 @@ int	get_ideal_count(t_data *data)
 	if ((data->move_a >= 0 && data->move_b >= 0)
 		|| (data->move_a < 0 && data->move_b < 0))
 	{
-		if (data->move_a > data->move_b && data->move_a >= 0)
+		if (data->move_a >= data->move_b && data->move_a >= 0)
 			count = data->move_a;
-		else if (data->move_b > data->move_a && data->move_b >= 0)
+		else if (data->move_b >= data->move_a && data->move_b >= 0)
 			count = data->move_b;
-		else if (data->move_a < data->move_b && data->move_a < 0)
+		else if (data->move_a <= data->move_b && data->move_a < 0)
 			count = data->move_a * -1;
 		else
 			count = data->move_b * -1;
@@ -252,10 +235,6 @@ int	get_ideal_count(t_data *data)
 		count = data->move_a - data->move_b;
 		if (count < 0)
 			count *= -1;
-		if (count > data->move_a + data->argc - 1 && data->move_a < 0)
-			count = data->move_a + data->argc - 1;
-		if (count > data->move_b + data->argc - 1 && data->move_b < 0)
-			count = data->move_b + data->argc - 1;
 	}
 	return (count);
 }
@@ -266,14 +245,10 @@ void	best_movement(t_data *data)
 	t_link	*temp;
 
 	data->temp = data->b;
-	count = 0;
 	data->move_b = count_moves_b(data);
 	data->move_a = count_moves_a(data);
-	if (count > get_ideal_count(data) || count == 0)
-	{
-		count = get_ideal_count(data);
-		temp = data->b;
-	}
+	count = get_ideal_count(data);
+	temp = data->b;
 	data->b = data->b->next;
 	while (data->b != data->temp)
 	{
@@ -290,10 +265,6 @@ void	best_movement(t_data *data)
 		data->b = data->b->next;
 	data->move_b = count_moves_b(data);
 	data->move_a = count_moves_a(data);
-	if (count > data->move_a + data->argc - 1 && data->move_a < 0)
-		data->move_a += stack_size(data->a);
-	if (count > data->move_b + data->argc - 1 && data->move_b < 0)
-		data->move_b += stack_size(data->b);
 	data->b = data->temp;
 }
 
@@ -323,52 +294,41 @@ int	main(int argc, char **argv)
 	data = (t_data *) malloc (sizeof(t_data));
 	data->argc = argc;
 	make_stack(argc, argv, data);
-	if (argc < 3)
-		exit (0);
-	if (argc == 3)
+	get_order(data);
+	update_stack_check(data);
+	while (!check_stack(data))
 	{
-		if (data->a->n > data->a->next->n)
+		if (test_sa(data) != 0)
+		{
+			do_sa(data);
+			update_stack_check(data);
+		}
+		else if (data->a->check == 0)
+			do_pb(data);
+		else
 			do_ra(data);
 	}
-	else
+	while (data->b != NULL)
 	{
-		update_stack_check(data);
-		while (!check_stack(data))
-		{
-			if (test_sa(data) != 0)
-			{
-				do_sa(data);
-				update_stack_check(data);
-			}
-			else if (data->a->check == 0)
-				do_pb(data);
-			else
-				do_ra(data);
-		}
-		while (data->b != NULL)
-		{
-			best_movement(data);
-			while (data->move_b != 0 || data->move_a != 0)
-			{
-				smart_rotate(data);
-			}
-			do_pa(data);
-		}
+		best_movement(data);
+		while (data->move_b != 0 || data->move_a != 0)
+			smart_rotate(data);
+		do_pa(data);
+	}
+	while (data->a->n != get_min_nbr(data->a))
+	{
+		data->temp = data->a;
+		data->count = 0;
 		while (data->a->n != get_min_nbr(data->a))
 		{
-			data->temp = data->a;
-			data->count = 0;
-			while (data->a->n != get_min_nbr(data->a))
-			{
-				data->a = data->a->next;
-				data->count++;
-			}
-			if (data->count > (data->argc - 1) / 2)
-				data->count -= stack_size(data->a);
-			data->move_a = data->count;
-			data->a = data->temp;
-			while (data->move_a != 0)
-				smart_rotate(data);
+			data->a = data->a->next;
+			data->count++;
 		}
+		if (data->count > stack_size(data->a) / 2)
+			data->count -= stack_size(data->a);
+		data->move_a = data->count;
+		data->a = data->temp;
+		while (data->move_a != 0)
+			smart_rotate(data);
 	}
 }

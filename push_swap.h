@@ -21,6 +21,7 @@ typedef struct s_link
 {
 	int				check;
 	int				n;
+	int				order;
 	struct s_link	*next;
 	struct s_link	*prev;
 }	t_link;
@@ -50,5 +51,8 @@ void	do_rr(t_data *data);
 void	do_rra(t_data *data);
 void	do_rrb(t_data *data);
 void	do_rrr(t_data *data);
+int		get_min_nbr(t_link *stack);
+int		get_max_nbr(t_link *stack);
+void	get_order(t_data *data);
 
 #endif

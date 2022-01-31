@@ -1,4 +1,4 @@
-SRC_FILES= push_swap.c check_args.c push.c swap.c reverse.c rotate.c make_stack.c
+SRC_FILES= push_swap.c check_args.c push.c swap.c reverse.c rotate.c make_stack.c get_nbr.c get_order.c
 SRC_B_FILES= 
 SRC=$(addprefix src/, $(SRC_FILES))
 SRC_B=$(addprefix src_bonus/, $(SRC_B_FILES))
