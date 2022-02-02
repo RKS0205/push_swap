@@ -35,9 +35,10 @@ typedef struct s_data
 	int		move_a;
 	int		move_b;
 	int		argc;
+	char	**argv;
 }	t_data;
 
-void	check_args(int argc, char **argv);
+void	check_args(int argc, char **argv, t_data *data);
 void	do_pb(t_data *data);
 void	make_stack(int argc, char **argv, t_data *data);
 void	test_stack(t_data *data);
@@ -54,5 +55,15 @@ void	do_rrr(t_data *data);
 int		get_min_nbr(t_link *stack);
 int		get_max_nbr(t_link *stack);
 void	get_order(t_data *data);
+void	best_movement(t_data *data);
+int		stack_size(t_link *stack);
+int		check_for_false(t_data *data);
+int		check_stack(t_link *stack);
+int		get_best_check(t_data *data);
+void	update_stack_check(t_data *data);
+int		test_sa(t_data *data);
+void	smart_rotate(t_data *data);
+void	free_stack(t_link *stack);
+void	get_args(int argc, char **argv, t_data *data);
 
 #endif

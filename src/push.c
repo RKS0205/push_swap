@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-static void	check_stack(t_data *data, char code)
+static void	stack_movement(t_data *data, char code)
 {
 	if (code == 'a')
 	{
@@ -46,14 +46,14 @@ void	do_pb(t_data *data)
 	data->temp = data->a;
 	if (data->b == NULL)
 	{
-		check_stack(data, 'a');
+		stack_movement(data, 'a');
 		data->b = data->temp;
 		data->b->next = data->b;
 		data->b->prev = data->b;
 	}
 	else
 	{
-		check_stack(data, 'a');
+		stack_movement(data, 'a');
 		data->temp->next = data->b;
 		data->temp->prev = data->b->prev;
 		data->b->prev->next = data->temp;
@@ -70,14 +70,14 @@ void	do_pa(t_data *data)
 	data->temp = data->b;
 	if (data->a == NULL)
 	{
-		check_stack(data, 'b');
+		stack_movement(data, 'b');
 		data->a = data->temp;
 		data->a->next = data->a;
 		data->a->prev = data->a;
 	}
 	else
 	{
-		check_stack(data, 'b');
+		stack_movement(data, 'b');
 		data->temp->next = data->a;
 		data->temp->prev = data->a->prev;
 		data->a->prev->next = data->temp;

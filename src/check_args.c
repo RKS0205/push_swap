@@ -1,13 +1,26 @@
-#include "../push_swap.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_args.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rkenji-s <rkenji-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/01 23:18:25 by rkenji-s          #+#    #+#             */
+/*   Updated: 2022/02/01 23:18:25 by rkenji-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	error_exit(void)
+#include "../push_swap.h"
+
+static void	error_exit(t_data *data)
 {
 	write(2, "Error\n", 7);
+	free_split (data->argv);
+	free (data);
 	exit(1);
 }
 
-static void	check_letters(int argc, char **argv)
+static void	check_letters(int argc, char **argv, t_data *data)
 {
 	int	n;
 	int	i;
@@ -23,14 +36,14 @@ static void	check_letters(int argc, char **argv)
 			if (i == 0 && (argv[n][i] == '-' || argv[n][i] == '+'))
 				i++;
 			if (argv[n][i] < '0' || argv[n][i] > '9')
-				error_exit();
+				error_exit(data);
 			i++;
 		}
 		n++;
 	}
 }
 
-static void	check_dups(int argc, char **argv)
+static void	check_dups(int argc, char **argv, t_data *data)
 {
 	int	n;
 	int	i;
@@ -45,14 +58,14 @@ static void	check_dups(int argc, char **argv)
 		while (n < argc)
 		{
 			if (i == ft_atoi(argv[n]))
-				error_exit();
+				error_exit(data);
 			n++;
 		}
 		j++;
 	}
 }
 
-static void	check_size(int argc, char **argv)
+static void	check_size(int argc, char **argv, t_data *data)
 {
 	int	n;
 	int	i;
@@ -66,23 +79,23 @@ static void	check_size(int argc, char **argv)
 		if (argv[n][0] == '-' || argv[n][0] == '+')
 			j = 11;
 		if (i > j)
-			error_exit();
+			error_exit(data);
 		if (i == j)
 		{
 			if (argv[n][0] == '-' && ft_strncmp("-2147483648", argv[n], 11) < 0)
-				error_exit();
+				error_exit(data);
 			if (argv[n][0] == '+')
 				argv[n]++;
 			if (ft_strncmp("2147483647", argv[n], 10) < 0)
-				error_exit();
+				error_exit(data);
 		}
 		n++;
 	}
 }
 
-void	check_args(int argc, char **argv)
+void	check_args(int argc, char **argv, t_data *data)
 {
-	check_letters(argc, argv);
-	check_dups(argc, argv);
-	check_size(argc, argv);
+	check_letters(argc, argv, data);
+	check_dups(argc, argv, data);
+	check_size(argc, argv, data);
 }
