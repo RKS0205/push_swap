@@ -1,6 +1,8 @@
 SRC_FILES= push_swap.c check_args.c push.c swap.c reverse.c rotate.c make_stack.c get_nbr.c \
 			best_movement.c stack_size.c stack_check_functions.c test_sa.c smart_rotate.c free_stack.c get_args.c
-SRC_B_FILES= 
+SRC_B_FILES= check_args_bonus.c push_bonus.c swap_bonus.c reverse_bonus.c rotate_bonus.c make_stack_bonus.c \
+			stack_size_bonus.c free_stack_bonus.c get_args_bonus.c get_next_line_bonus.c get_next_line_utils_bonus.c \
+			str_check_bonus.c checker_bonus.c
 SRC=$(addprefix src/, $(SRC_FILES))
 SRC_B=$(addprefix src_bonus/, $(SRC_B_FILES))
 OBJ=$(addprefix obj/, $(SRC_FILES:.c=.o))
@@ -44,6 +46,7 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf $(NAME_B)
 	make -C $(LIBFT_DIR) fclean
 
 re: fclean all

@@ -1,29 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*   free_stack_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkenji-s <rkenji-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 20:13:09 by rkenji-s          #+#    #+#             */
-/*   Updated: 2022/02/03 20:13:09 by rkenji-s         ###   ########.fr       */
+/*   Created: 2022/02/03 20:09:41 by rkenji-s          #+#    #+#             */
+/*   Updated: 2022/02/03 20:09:41 by rkenji-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../push_swap_bonus.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
+void	free_stack(t_link *stack)
 {
-	size_t			count;
-	unsigned char	*a;
-	unsigned char	*b;
+	int	size;
 
-	a = (unsigned char *) s1;
-	b = (unsigned char *) s2;
-	count = 0;
-	while (a[count] == b[count] && count < (n - 1))
-		count++;
-	if (n == 0)
-		return (0);
-	return (a[count] - b[count]);
+	size = stack_size(stack);
+	if (size == 0)
+		return ;
+	if (size == 2)
+	{
+		free (stack->prev);
+		free (stack);
+		return ;
+	}
+	if (size == 1)
+	{
+		free (stack);
+		return ;
+	}
+	stack = stack->next;
+	while (size > 2)
+	{
+		free (stack->prev);
+		stack = stack->next;
+		size--;
+	}
+	free (stack->prev);
+	free (stack);
 }
